@@ -35,8 +35,6 @@
     </select>
     <script>
 
-    var hourData = [];
-
         var polylinePoints2 = [
             [42.72567298498723, -84.475345480528],
             [42.726092956499976, -84.47534033012619],
@@ -259,6 +257,108 @@
         [42.72523363363265, -84.47537284317616],
         [42.72567298498723, -84.475345480528]
     ];
+
+        const dormsData = ["12", "13", "14", "15", "17", "18", "23", "24", "32", "33", "40", "43", "54", "55", "56", "57", "62", "63", "64"];
+const busStops = ["10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22",
+                  "23", "24", "25", "26", "27", "30", "31", "32", "33", "34", "35", "36", "37",
+                  "40", "41", "42", "43", "44", "45", "46", "50", "51", "52", "53", "54", "55",
+                  "56", "57", "60", "61", "62", "63", "64", "65", "66", "67"];
+const activities = ["Gym", "Swimming", "Library", "Cafeteria", "Music Practice", "Art Workshop", "Tennis", "Basketball"];
+const morningClassTimes = ["8am", "9am", "10am", "11am", "12pm"];
+const afternoonClassTimes = ["1pm", "2pm", "3pm", "4pm", "5pm"];
+const activityTimes = ["6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm"];
+
+// Function to get a random item from an array
+function getRandomItem(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// Create random data for 2500 students
+let data = [];
+for (let i = 0; i < 2500; i++) {
+    let name = `Name${i}`;
+    let lastName = `LastName${i}`;
+    let pid = Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000;
+    let home = getRandomItem(dormsData);
+    let class1 = getRandomItem(busStops);
+    let class1Time = getRandomItem(morningClassTimes);
+    let class2 = getRandomItem(busStops);
+    let class2Time = getRandomItem(afternoonClassTimes);
+
+    let activity = getRandomItem(activities);
+    let activityLocation = getRandomItem(busStops);
+    let activityTime = getRandomItem(activityTimes);
+
+    // Ensure activity time is not the same as class times
+    while ([class1Time, class2Time].includes(activityTime)) {
+        activityTime = getRandomItem(activityTimes);
+    }
+
+    data.push([name, lastName, pid, home, class1, class1Time, class2, class2Time, activity, activityLocation, activityTime]);
+}
+        function categorizeHour(time) {
+    const hour = parseInt(time);
+    return time.includes('pm') && hour !== 12 ? hour + 12 : hour;
+}
+
+// Initialize counters for each bus stop and each relevant hour (6am to 9pm)
+let uniqueHomeStops = [...new Set(data.map(row => row[3]))];
+let counters = {};
+uniqueHomeStops.forEach(stop => {
+    counters[stop] = {};
+    for (let hour = 6; hour < 22; hour++) {
+        counters[stop][hour] = { brody: 0, south: 0, east: 0, north: 0, shopping: 0, parking: 0 };
+    }
+});
+
+// Function to determine the route based on bus stop
+function determineRoute(busStop) {
+    if (String(busStop).startsWith('1')) {
+        return 'brody';
+    } else if (String(busStop).startsWith('2')) {
+        return 'south';
+    } else if (String(busStop).startsWith('3')) {
+        return 'east';
+    } else if (String(busStop).startsWith('4')) {
+        return 'north';
+    } else if (String(busStop).startsWith('5')) {
+        return 'shopping';
+    } else if (String(busStop).startsWith('6')) {
+        return 'parking';
+    }
+    return null;
+}
+
+// Count the number of people from each bus stop going to each bus route for each relevant hour
+data.forEach(row => {
+    let homeStop = String(row[3]);
+    let class1Stop = row[4];
+    let class1Hour = categorizeHour(row[5]);
+    let class2Stop = row[6];
+    let class2Hour = categorizeHour(row[7]);
+    let activityStop = row[8];
+    let activityHour = categorizeHour(row[10]);
+
+    // Routes for each location
+    let routes = [determineRoute(class1Stop), determineRoute(class2Stop), determineRoute(activityStop)];
+    let hours = [class1Hour, class2Hour, activityHour];
+
+    routes.forEach((route, index) => {
+        let hour = hours[index];
+        if (route && hour >= 6 && hour < 22 && counters[homeStop] && counters[homeStop][hour]) {
+            counters[homeStop][hour][route]++;
+        }
+    });
+});
+
+// Transform the counters object into a list of objects for output
+let outputData = [];
+for (const [homeStop, hours] of Object.entries(counters)) {
+    for (const [hour, routes] of Object.entries(hours)) {
+        let row = { Home: homeStop, Hour: parseInt(hour), ...routes };
+        outputData.push(row);
+    }
+}
 
         // Initialize the map and set its view to our chosen geographical coordinates and a zoom level
 var map = L.map('mapid').setView([42.72332, -84.48304], 15);
