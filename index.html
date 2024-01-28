@@ -5,7 +5,11 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <style>
-        #mapid { height: 800px; }
+        body {
+            background-color: black;
+            color: white;
+        }
+        #mapid { height: 700px; }
         #hourInfo { width: 125px; height: 20px; border: 1px solid black; padding: 10px; }
 
         .dropdown {
@@ -26,13 +30,45 @@
         .dropdown:hover .dropdown-content {
         display: block;
         }
+        .header {
+        text-align: center;
+        padding: 20px;
+        color: darkgrey;
+        background: linear-gradient(to top right, black 0%, #001900 25%, #003200 50%, #004b00 75%, #006400 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 25vh;
+        }
+        .header h1 {
+        font-family: '1955', sans-serif;
+        font-size: 80px;
+        margin: 0;
+        text-shadow: 0 0 10px grey, 0 0 20px grey, 0 0 30px grey, 0 0 40px grey, 0 0 50px grey, 0 0 60px grey; /* Add initial glow */
+        animation: glow 3s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+        from {
+            text-shadow: 0 0 20px grey, 0 0 30px grey, 0 0 40px grey, 0 0 50px grey, 0 0 60px grey;
+        }
+        to {
+            text-shadow: 0 0 30px green, 0 0 40px green, 0 0 50px green, 0 0 60px green, 0 0 70px green, 0 0 80px green; /* Increase glow */
+        }
+        }
+        @media (max-width: 600px) {
+        .header h1 {
+            font-size: 30px;
+        }
+        }
     </style>
 </head>
 <body>
+    <div class="header"><h1>NEW MSU CATA BUS ROUTES</h1></div>
     <div id="mapid"></div>
     <select class = "dropdown" id="hourDropdown" onchange="hourChanged()">
         <option value="">Select an hour</option>
     </select>
+    <div id="busRoutes">Select an hour for more bus route information</div>
     <script>
 
         var polylinePoints2 = [
@@ -67,40 +103,7 @@
             [42.72567298498723, -84.475345480528]
         ];
         var polylinePoints3 = [
-            [42.72567298498723, -84.475345480528],
-            [42.726092956499976, -84.47534033012619],
-            [42.72606666529016, -84.4779240388682],
-            [42.73046528233908, -84.47768579211784],
-            [42.73085029232722, -84.47646279213274],
-            [42.731281967350704, -84.47589099993189],
-            [42.73284530580569, -84.4749697791639],
-            [42.734676928423404, -84.48154538953258],
-            [42.7356335505304, -84.48542087022923],
-            [42.73367362595138, -84.49334654570401],
-            [42.733591961083384, -84.49631668852498],
-            [42.733323632902845, -84.49639610410844],
-            [42.733323632902845, -84.49441071452223],
-            [42.73309030310652, -84.49377538985463],
-            [42.7324369750067, -84.4939818703716],
-            [42.72914224130027, -84.49397473849199],
-            [42.72913277537294, -84.49396283190966],
-            [42.72903854846157, -84.49572661151436],
-            [42.72881475897333, -84.4966405700368],
-            [42.728202278350494, -84.49848452144175],
-            [42.72810528502016, -84.49895167250153],
-            [42.72743839927778, -84.4987499304734],
-            [42.727466186326865, -84.49859862395232],
-            [42.72809602276726, -84.4988381926107],
-            [42.728744377128834, -84.49682077232957],
-            [42.72901297909328, -84.49601380421711],
-            [42.72914264859085, -84.49397116618248],
-            [42.72568961586169, -84.4939039771525],
-            [42.72570423096386, -84.48780569426096],
-            [42.72570423096481, -84.48333131416847],
-            [42.725436834118945, -84.48227346133567],
-            [42.72524298909882, -84.48135684955182],
-            [42.725230097154046, -84.47536771151698],
-            [42.72568675172252, -84.475349825049]
+        [42.72567298498723, -84.475345480528], [42.726092956499976, -84.47534033012619], [42.726015971073835, -84.47620093161393],[42.726024002390396, -84.4765466586862],[42.72523660879054, -84.47654050621377],[42.72521668946564, -84.47342445411374], [42.7254401176492, -84.47204198433083], [42.725677086055704, -84.47088070975467], [42.725629692443604, -84.46973786799886], [42.7254907889863, -84.46860278851283], [42.72527664744232, -84.46608666525839], [42.72527101213574, -84.46550366102501], [42.72525974149754, -84.46236617808961], [42.72160231432235, -84.46235850695021], [42.721502514494645, -84.46479998540804], [42.72159876767842, -84.46578857133409], [42.72180002385572, -84.46650321178184], [42.72199252915677, -84.4668128893322], [42.72232503689601, -84.46712256685122],  [42.72286754569754, -84.46745606571784], [42.72311254812578, -84.46770618989703], [42.72334004950655, -84.46815879550172], [42.72339254970668, -84.46840891965168], [42.72340129973573, -84.46867095447544], [42.72335754958212, -84.46904018539665], [42.723329528663506, -84.46954261069216], [42.723295803094985, -84.47191498925798], [42.72328882385703, -84.4765891022299], [42.72328882385861, -84.47793813484834], [42.725227947438945, -84.47792297117641],[42.72523085355186, -84.47535124834738],[42.72567298498723, -84.475345480528]
         ];
         var polylinePoints5 = [
     [42.72567298498723, -84.475345480528],
@@ -273,9 +276,9 @@ function getRandomItem(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// Create random data for 2500 students
+// Create random data for 50,000 students
 let data = [];
-for (let i = 0; i < 2500; i++) {
+for (let i = 0; i < 50000; i++) {
     let name = `Name${i}`;
     let lastName = `LastName${i}`;
     let pid = Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000;
@@ -296,6 +299,7 @@ for (let i = 0; i < 2500; i++) {
 
     data.push([name, lastName, pid, home, class1, class1Time, class2, class2Time, activity, activityLocation, activityTime]);
 }
+console.log(data);
         function categorizeHour(time) {
     const hour = parseInt(time);
     return time.includes('pm') && hour !== 12 ? hour + 12 : hour;
@@ -360,57 +364,101 @@ for (const [homeStop, hours] of Object.entries(counters)) {
     }
 }
 
-        // Initialize the map and set its view to our chosen geographical coordinates and a zoom level
-var map = L.map('mapid').setView([42.72332, -84.48304], 15);
+function summarizeData(outputData) {
+    // Initialize an empty array for the summarized data
+    let summaryData = new Array(24).fill(null).map(() => ({brody: 0, east: 0, Home: 0, north: 0, parking: 0, shopping: 0, south: 0}));
 
-// Add OpenStreetMap tile layer to the map
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+    // Iterate over the outputData array
+    for (let i = 0; i < outputData.length; i++) {
+        let hour = outputData[i].Hour;
 
-// Fetch hoursData from a JSON file in the same directory
-/*var hourData = [];
-fetch('data.json')
-.then(response => response.json())
-.then(data => {
-    hourData = data;*/
-
-    function draw_map(routes_list = []){
-        console.log("DRAW MAP: ",routes_list);
-
-        map.eachLayer(function (layer) {
-            map.removeLayer(layer);
-        });
-
-        // Add the tile layer back to the map
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        for (i = 0; i < routes_list.length; i++){
-            if(routes_list[i] === 1) {var polyline1 = L.polyline(polylinePoints1, {color: 'grey'}).addTo(map);}
-            else if(routes_list[i] === 2) {var polyline2 = L.polyline(polylinePoints2, {color: 'purple'}).addTo(map);}
-            else if(routes_list[i] === 3) {var polyline3 = L.polyline(polylinePoints3, {color: 'blue'}).addTo(map);}
-            else if(routes_list[i] === 4) {var polyline4 = L.polyline(polylinePoints4, {color: 'orange'}).addTo(map);}
-            else if(routes_list[i] === 5) {var polyline5 = L.polyline(polylinePoints5, {color: 'red'}).addTo(map);}
-            else if(routes_list[i] === 6) {var polyline6 = L.polyline(polylinePoints6, {color: 'green'}).addTo(map);}
-        }
+        summaryData[hour].brody += outputData[i].brody;
+        summaryData[hour].east += outputData[i].east;
+        summaryData[hour].north += outputData[i].north;
+        summaryData[hour].parking += outputData[i].parking;
+        summaryData[hour].shopping += outputData[i].shopping;
+        summaryData[hour].south += outputData[i].south;
     }
 
-    // Function to handle change in dropdown selection
-    function hourChanged() {
-        var selectedHour = document.getElementById("hourDropdown").value;
-        console.log("Selected hour: " + selectedHour);
-        draw_map(hourData[Number(selectedHour)]);
+    return summaryData;
+}
+
+var summarizedData = summarizeData(outputData);
+
+function getTopThreeNames(summaryData) {
+    // Initialize an empty array for the top three names
+    let topThreeNames = new Array(24).fill(null).map(() => []);
+
+    // Iterate over the summaryData array
+    for (let i = 0; i < summaryData.length; i++) {
+        // Get the entries from the current object (i.e., pairs of property names and values)
+        let entries = Object.entries(summaryData[i]);
+
+        // Filter out entries with a value of 0
+        entries = entries.filter(entry => entry[1] > 0);
+
+        // Sort the remaining entries in descending order by value
+        entries.sort((a, b) => b[1] - a[1]);
+
+        // Get the names of the properties with the top three values
+        topThreeNames[i] = entries.slice(0, 3).map(entry => entry[0]);
     }
 
-    for (var i = 0; i < 24; i++) {
-        var option = document.createElement("option");
-        option.text = (i < 12) ? i + ":00 am" : i + ":00 pm";
-        option.value = i;
-        document.getElementById("hourDropdown").appendChild(option);
-    }
-});
+    return topThreeNames;
+}
+
+var topThreeData = getTopThreeNames(summarizedData);
+
+        function draw_map(routes_list = []){
+                console.log("DRAW MAP: ",routes_list);
+
+                map.eachLayer(function (layer) {
+                    map.removeLayer(layer);
+                });
+
+                // Add the tile layer back to the map
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                for (i = 0; i < routes_list.length; i++){
+                    if(routes_list[i] === 'brody') {var polyline1 = L.polyline(polylinePoints1, {color: 'grey'}).addTo(map);}
+                    else if(routes_list[i] === 'south') {var polyline2 = L.polyline(polylinePoints2, {color: 'purple'}).addTo(map);}
+                    else if(routes_list[i] === 'east') {var polyline3 = L.polyline(polylinePoints3, {color: 'blue'}).addTo(map);}
+                    else if(routes_list[i] === 'parking') {var polyline4 = L.polyline(polylinePoints4, {color: 'orange'}).addTo(map);}
+                    else if(routes_list[i] === 'shopping') {var polyline5 = L.polyline(polylinePoints5, {color: 'red'}).addTo(map);}
+                    else if(routes_list[i] === 'north') {var polyline6 = L.polyline(polylinePoints6, {color: 'green'}).addTo(map);}
+                }
+            }
+
+            // Function to handle change in dropdown selection
+            function hourChanged() {
+                var selectedHour = document.getElementById("hourDropdown").value;
+                console.log("Selected hour: " + selectedHour);
+                draw_map(topThreeData[Number(selectedHour)]);
+                if (Number(selectedHour) === 0) var hourText = "12:00 am";
+                else if(Number(selectedHour) === 12) var hourText = "12:00 pm";
+                else var hourText = (Number(selectedHour) > 11) ? String(Number(selectedHour) - 12) + ":00 pm " : String(selectedHour) + ":00 am ";
+                var divText = "Bus routes with additional bus for " + hourText + String(topThreeData[Number(selectedHour)]) + ".";
+                document.getElementById("busRoutes").textContent = divText;
+            }
+
+            for (var i = 0; i < 24; i++) {
+                var option = document.createElement("option");
+                if (i === 0) option.text = "12:00 am";
+                else if(i === 12) option.text = "12:00 pm";
+                else option.text = (i < 12) ? i + ":00 am" : (i - 12) + ":00 pm";
+                option.value = i;
+                document.getElementById("hourDropdown").appendChild(option);
+            }
+
+            // Initialize the map and set its view to our chosen geographical coordinates and a zoom level
+            var map = L.map('mapid').setView([42.72332, -84.48304], 15);
+
+            // Add OpenStreetMap tile layer to the map
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
     </script>
 </body>
 </html>
