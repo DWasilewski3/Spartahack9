@@ -8,8 +8,8 @@ We completely redesigned the bus system on campus including a reduction from the
 Initially, we used the Folium Python library to create a map of East Lansing and draw our new bus routes, then we created a Python algorithm to generate a Pandas dataframe of 2,500 random students with class schedules and various extracurricular activites that they would need to use the bus system to travel to. This was a solig proof of conecpt, but we needed a better way to display the data and decided to create a custom website for it. The website can be found as the GitHub Pages link on this repo and features a few updates since the initial release. These updates include adding a dropdown menu to show which bus routes will be high traffic at a given hour, highlighting the routes on the map as they are needed, and using JavaScript to randomly generate the entire student population of 50,000 students every time the website loads rather than hard-coding the initial set f 2,500.
 
 <p float="left">
-  <img src="images/Current_Bus_Routes.svg" alt="Alt Text 1" title="Current MSU CATA Bus Routes" width="200"/>
-  <img src="images/New_Bus_Routes.png" alt="Alt Text 2" title="Our New Bus Routes" width="200"/>
+  <img src="images/Current_Bus_Routes.svg" alt="Alt Text 1" title="Current MSU CATA Bus Routes" width="500"/>
+  <img src="images/New_Bus_Routes.png" alt="Alt Text 2" title="Our New Bus Routes" width="500"/>
 </p>
 
 
