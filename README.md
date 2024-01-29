@@ -9,7 +9,7 @@ Initially, we used the Folium Python library to create a map of East Lansing and
 
 <p float="left">
   <img src="images/Current_Bus_Routes.svg" alt="Alt Text 1" title="Current MSU CATA Bus Routes" width="500"/>
-  <img src="images/New_Bus_Routes.png" alt="Alt Text 2" title="Our New Bus Routes" width="500"/>
+  <img src="images/New_Bus_Routes.png" alt="Alt Text 2" title="Our New Bus Routes" width="400"/>
 </p>
 
 
