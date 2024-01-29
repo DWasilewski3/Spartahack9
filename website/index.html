@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="header"><h1>NEW MSU CATA BUS ROUTES</h1></div>
+    <div id="mapid"></div>
+    <select class = "dropdown" id="hourDropdown" onchange="hourChanged()">
+        <option value="">Select an hour</option>
+    </select>
+    <div id="busRoutes">Select an hour for more bus route information</div>
+    <script src="main.js"></script>
+</body>
+</html>

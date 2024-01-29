@@ -1,0 +1,55 @@
+body {
+    background-color: black;
+    color: white;
+}
+#mapid { height: 700px; }
+#hourInfo { width: 125px; height: 20px; border: 1px solid black; padding: 10px; }
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #f9f9f9;
+min-width: 160px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+padding: 12px 16px;
+z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+.header {
+text-align: center;
+padding: 20px;
+color: darkgrey;
+background: linear-gradient(to top right, black 0%, #001900 25%, #003200 50%, #004b00 75%, #006400 100%);
+display: flex;
+justify-content: center;
+align-items: center;
+height: 25vh;
+}
+.header h1 {
+font-family: '1955', sans-serif;
+font-size: 80px;
+margin: 0;
+text-shadow: 0 0 10px grey, 0 0 20px grey, 0 0 30px grey, 0 0 40px grey, 0 0 50px grey, 0 0 60px grey; /* Add initial glow */
+animation: glow 3s ease-in-out infinite alternate;
+}
+@keyframes glow {
+from {
+    text-shadow: 0 0 20px grey, 0 0 30px grey, 0 0 40px grey, 0 0 50px grey, 0 0 60px grey;
+}
+to {
+    text-shadow: 0 0 30px green, 0 0 40px green, 0 0 50px green, 0 0 60px green, 0 0 70px green, 0 0 80px green; /* Increase glow */
+}
+}
+@media (max-width: 600px) {
+.header h1 {
+    font-size: 30px;
+}
+}
